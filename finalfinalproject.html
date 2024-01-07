@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    table {
+            border-collapse: collapse;
+            width: 100%;
+            color: black;
+            background-color: rgb(238, 246, 191);
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgb(238, 242, 207);
+        }
+
+        header {
+            background-color: rgb(244, 224, 165);
+            color: black;
+            text-align: center;
+            height: 100px;
+            width: 100%;
+            font-size: large;
+        }
+
+        h1, h2 {
+            text-align: center;
+           
+        }
+        body{
+            background-color: rgb(231, 178, 87)
+        }
+  </style>
+</head>
+<body>
+  <h1>
+   Group Project EDI 
+  </h1>
+  <header>
+    Damian Sarnecki,
+    Julia Petlic,
+    Joanna Jarco
+  </header>
+  <div id="apiDataContainer">
+   
+  
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    fetch('https://my.api.mockaroo.com/edi1.json?key=7739f960')
+        .then(response => response.json())
+        .then(data => {
+            
+            displayData(data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+});
+
+
+function displayData(data) {
+    const container = document.getElementById('apiDataContainer');
+
+   
+    const table = document.createElement('table');
+
+    
+    const headerRow = document.createElement('tr');
+    for (const key in data[0]) {
+        const headerCell = document.createElement('th');
+        headerCell.textContent = key;
+        headerRow.appendChild(headerCell);
+    }
+    table.appendChild(headerRow);
+
+  
+    data.forEach(item => {
+        const row = document.createElement('tr');
+        for (const key in item) {
+            const cell = document.createElement('td');
+            cell.textContent = item[key];
+            row.appendChild(cell);
+        }
+        table.appendChild(row);
+    });
+
+    
+    container.appendChild(table);
+}
+</script>
+
+<h1>Email Endings Pie Chart</h1>
+    <canvas id="emailChart" width="0" height="400"></canvas>
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+       const apiUrl = 'https://my.api.mockaroo.com/project.json?key=933f5560';
+  
+        
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            
+            const emailEndings = data.map(item => item.email.split('.').pop());
+  
+            
+            const endingCounts = {};
+            emailEndings.forEach(ending => {
+              endingCounts[ending] = (endingCounts[ending] || 0) + 1;
+            });
+  
+            
+            const labels = Object.keys(endingCounts);
+            const dataValues = Object.values(endingCounts);
+  
+            
+            const ctx = document.getElementById('emailChart').getContext('2d');
+            const emailChart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                labels: labels,
+                datasets: [{
+                  data: dataValues,
+                  backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#cc99ff', '#ff6666'],
+                }]
+              },
+              options: {
+                title: {
+                  display: true,
+                  text: 'Distribution of Email Endings'
+                }
+              }
+            });
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      });
+    </script>
+    <h1>Gender Distribution Bar Chart</h1>
+    <canvas id="genderChart" width="400" height="200"></canvas>
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const apiUrl = 'https://my.api.mockaroo.com/project.json?key=933f5560';
+  
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            const genderCounts = {
+              females: 0,
+              males: 0,
+              other: 0,
+            };
+  
+            data.forEach(item => {
+              const gender = item.gender.toLowerCase();
+              if (gender === 'female') {
+                genderCounts.females++;
+              } else if (gender === 'male') {
+                genderCounts.males++;
+              } else {
+                genderCounts.other++;
+              }
+            });
+  
+            const labels = Object.keys(genderCounts);
+            const dataValues = Object.values(genderCounts);
+  
+            const ctx = document.getElementById('genderChart').getContext('2d');
+            new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: 'Gender Distribution',
+                  data: dataValues,
+                  backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                },
+                title: {
+                  display: true,
+                  text: 'Distribution of Genders'
+                }
+              }
+            });
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      });
+    </script>
+</body>
+</html>
