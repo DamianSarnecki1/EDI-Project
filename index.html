@@ -15,31 +15,47 @@
         }
 
         th, td {
-            border: 1px solid #ddd;
+            background-color: rgb(244, 216, 186);
+            border: 1px solid ;
             padding: 8px;
             text-align: left;
         }
 
         th {
-            background-color: rgb(238, 242, 207);
+            background-color: rgb(243, 189, 73);
         }
 
         header {
-            background-color: rgb(244, 224, 165);
+            background-color: rgb(240, 200, 137);
             color: black;
             text-align: center;
-            height: 100px;
+            
+            height: 40px;
             width: 100%;
-            font-size: large;
+            font-size: x-large;
         }
 
-        h1, h2 {
+        h2,h3 {
             text-align: center;
+            font-size: large;
+            height: 75px;
            
         }
         body{
-            background-color: rgb(231, 178, 87)
+            background-color: rgb(231, 178, 87);
+            box-sizing: border-box;
+            
         }
+        #chart1{
+            background-color:rgb(228, 194, 136) ;
+        }
+        h1{
+            text-align: center;
+            font-size: 40px;
+            height: 50px;
+            font-family: "Papyrus";
+        }
+       
   </style>
 </head>
 <body>
@@ -58,7 +74,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     
-    fetch('https://my.api.mockaroo.com/edi1.json?key=7739f960')
+    fetch('https://my.api.mockaroo.com/edi.json?key=59ecb3a0')
         .then(response => response.json())
         .then(data => {
             
@@ -100,13 +116,14 @@ function displayData(data) {
     container.appendChild(table);
 }
 </script>
-
-<h1>Email Endings Pie Chart</h1>
-    <canvas id="emailChart" width="0" height="400"></canvas>
+<h3>Email endings</h3>
+<div id="chart1">
+    
+    <canvas id="emailChart" width="100%" height="400"></canvas>
   
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-       const apiUrl = 'https://my.api.mockaroo.com/project.json?key=933f5560';
+       const apiUrl = 'https://my.api.mockaroo.com/edi.json?key=59ecb3a0';
   
         
         fetch(apiUrl)
@@ -133,7 +150,7 @@ function displayData(data) {
                 labels: labels,
                 datasets: [{
                   data: dataValues,
-                  backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66ff66', '#cc99ff', '#ff6666'],
+                  backgroundColor: ['#adff03','#0399ff','#ff0342','#8b15ba','#000000','#fde910','#00a693','#003153','#ff00ff','#ff8413','#870121','#73542f','#c6dc9a','#fffff0','#7a7d80'],
                 }]
               },
               options: {
@@ -147,12 +164,15 @@ function displayData(data) {
           .catch(error => console.error('Error fetching data:', error));
       });
     </script>
-    <h1>Gender Distribution Bar Chart</h1>
-    <canvas id="genderChart" width="400" height="200"></canvas>
+    </div>
+   
+    <h3>Gender Distribution Bar Chart</h3>
+    <div>
+    <canvas id="genderChart" width="400" height="200" style="background-color: white;"></canvas>
   
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const apiUrl = 'https://my.api.mockaroo.com/project.json?key=933f5560';
+        const apiUrl = 'https://my.api.mockaroo.com/edi.json?key=59ecb3a0';
   
         fetch(apiUrl)
           .then(response => response.json())
@@ -185,7 +205,7 @@ function displayData(data) {
                 datasets: [{
                   label: 'Gender Distribution',
                   data: dataValues,
-                  backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                  backgroundColor: ['#008000', '#b87333', '#c600ff'],
                 }]
               },
               options: {
@@ -204,5 +224,6 @@ function displayData(data) {
           .catch(error => console.error('Error fetching data:', error));
       });
     </script>
+    </div>
 </body>
 </html>
